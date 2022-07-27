@@ -15,12 +15,8 @@ const productSchema=new Schema({
         required:true
     },
     image_url:{
-        type:Array,
+        type:String,
         required:true
-    },
-    brand:{
-        type: Schema.Types.ObjectId,
-        ref: 'Brand'
     }
 })
 

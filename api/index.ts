@@ -1,5 +1,5 @@
-import express, { Express, Request, Response,json, NextFunction,urlencoded } from 'express';
-import dotenv from 'dotenv';
+import express, { Express,json,urlencoded } from 'express';
+import dotenv from 'dotenv'
 import router from "./src/routes/index"
 import cors from 'cors'
 import "./src/db";

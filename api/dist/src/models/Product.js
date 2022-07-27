@@ -15,12 +15,8 @@ const productSchema = new mongoose_1.Schema({
         required: true
     },
     image_url: {
-        type: Array,
+        type: String,
         required: true
-    },
-    brand: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'Brand'
     }
 });
 const Product = (0, mongoose_1.model)("Product", productSchema);

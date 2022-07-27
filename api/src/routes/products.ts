@@ -1,8 +1,7 @@
 import { Router } from "express";
 import Product from "../models/Product"
-import Brand from "../models/Brand"
 import { Request, Response} from "express";
-import {verifyToken} from '../middlewares/authJwt';
+
 const route= Router()
 
 
@@ -11,7 +10,7 @@ const route= Router()
 // ********* GET products *********
 route.get("/",async(req:Request,res:Response)=>{
     try {
-        const AllProducts=await Product.find().populate(["brand"])
+        const AllProducts=await Product.find()
         res.status(200).json(AllProducts)
     } catch (error) {
         res.status(404).json({message:"No products found"})
@@ -21,26 +20,19 @@ route.get("/",async(req:Request,res:Response)=>{
 // ********* GET product by id *********
 route.get("/:id",async(req:Request,res:Response)=>{
     try {
-        const product=await Product.findById(req.params.id).populate(["brand"])
+        const product=await Product.findById(req.params.id)
         if(product)res.status(200).json(product)
-        else res.status(200).json({message:'Product not found'})
+        else res.status(404).json({message:'Product not found'})
     } catch (error) {
         res.status(404).json({message:'Product not found'})
     }
 })
 
 // ********* POST product *********
-route.post("/",verifyToken,async(req:Request,res:Response)=>{
+route.post("/",async(req:Request,res:Response)=>{
     try {
-        const {name,description,price,image_url,brand,logo_url}=req.body
+        const {name,description,price,image_url}=req.body
         const newProduct=new Product({name,description,price,image_url})
-        const brandfound=await Brand.findOne({name:brand})
-        if(brandfound)newProduct.brand=brandfound._id
-        else{
-            const newBrand=new Brand({name:brand,logo_url})
-            await newBrand.save()
-            newProduct.brand=newBrand._id
-        }
         await newProduct.save()
         res.status(200).json("Product created successfully")
     } catch (error) {
@@ -49,7 +41,7 @@ route.post("/",verifyToken,async(req:Request,res:Response)=>{
 })
 
 // ********* PUT product *********
-route.put("/:id",verifyToken,async(req:Request,res:Response)=>{
+route.put("/:id",async(req:Request,res:Response)=>{
     try {
         const {name,description,price,image_url}=req.body
         await Product.findByIdAndUpdate(req.params.id,{name,description,price,image_url})
@@ -61,7 +53,7 @@ route.put("/:id",verifyToken,async(req:Request,res:Response)=>{
 })
 
 // ********* DELETE product *********
-route.delete("/:id",verifyToken,async(req:Request,res:Response)=>{
+route.delete("/:id",async(req:Request,res:Response)=>{
     try {
         await Product.findByIdAndDelete(req.params.id)
         res.status(200).json({message:"Product deleted successfully"})
