@@ -47,7 +47,7 @@ route.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json("Product created successfully");
     }
     catch (error) {
-        res.json({ message: "Product could not be created" });
+        res.status(404).json({ message: "Product could not be created" });
     }
 }));
 // ********* PUT product *********
@@ -69,7 +69,7 @@ route.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(200).json({ message: "Product deleted successfully" });
     }
     catch (error) {
-        res.status(200).json({ message: "Product could not be deleted" });
+        res.status(404).json({ message: "Product could not be deleted" });
     }
 }));
 exports.default = route;

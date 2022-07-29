@@ -36,7 +36,7 @@ route.post("/",async(req:Request,res:Response)=>{
         await newProduct.save()
         res.status(200).json("Product created successfully")
     } catch (error) {
-        res.json({message:"Product could not be created"})
+        res.status(404).json({message:"Product could not be created"})
     }
 })
 
@@ -58,7 +58,7 @@ route.delete("/:id",async(req:Request,res:Response)=>{
         await Product.findByIdAndDelete(req.params.id)
         res.status(200).json({message:"Product deleted successfully"})
     } catch (error) {
-        res.status(200).json({message:"Product could not be deleted"})
+        res.status(404).json({message:"Product could not be deleted"})
     }
 })
 
